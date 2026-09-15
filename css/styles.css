@@ -96,6 +96,35 @@ a {
   margin-top: 28px;
 }
 
+.menu-panel {
+  max-width: 680px;
+}
+
+.menu-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  width: min(620px, 100%);
+}
+
+.menu-button {
+  min-height: 104px;
+  display: grid;
+  align-content: center;
+  gap: 7px;
+  padding: 18px 20px;
+}
+
+.menu-button span {
+  font-size: 1.25rem;
+}
+
+.menu-button small {
+  color: inherit;
+  font-size: 0.9rem;
+  font-weight: 750;
+  opacity: 0.76;
+}
+
 .button,
 button {
   min-height: 48px;
@@ -506,6 +535,10 @@ select option {
 
   .toolbar {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  .menu-actions {
+    grid-template-columns: 1fr;
   }
 
   .settings-grid {
