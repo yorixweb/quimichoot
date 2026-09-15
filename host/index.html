@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quimichoot | Profesor</title>
+    <link rel="stylesheet" href="../css/styles.css">
+  </head>
+  <body data-view="host">
+    <main class="app host-app">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Pantalla principal</p>
+          <h1>Quimichoot</h1>
+        </div>
+        <div class="pin-card">
+          <span>PIN</span>
+          <strong id="roomPin">----</strong>
+        </div>
+      </header>
+
+      <section id="setupView" class="stage two-column">
+        <div class="panel">
+          <h2>Crear partida</h2>
+          <label>Rondas
+            <input id="roundCount" type="number" min="1" max="20" value="8">
+          </label>
+          <label>Dificultad máxima
+            <select id="difficultyLimit">
+              <option value="1">1 · Básica</option>
+              <option value="2">2 · Fácil</option>
+              <option value="3" selected>3 · Media</option>
+              <option value="4">4 · Difícil</option>
+              <option value="5">5 · Reto completo</option>
+            </select>
+          </label>
+          <label>Duración por ronda
+            <input id="roundDuration" type="number" min="20" max="180" value="60">
+          </label>
+          <button id="createRoomBtn" class="button primary">Crear sala</button>
+          <p id="modeNotice" class="notice"></p>
+        </div>
+        <div class="panel">
+          <h2>Cómo entrar</h2>
+          <p class="lead">Los equipos abren <strong>/play</strong>, escriben el PIN y el nombre del equipo.</p>
+        </div>
+      </section>
+
+      <section id="lobbyView" class="stage hidden">
+        <div class="hero-line">
+          <div>
+            <p class="eyebrow">Lobby</p>
+            <h2>Equipos conectados</h2>
+          </div>
+          <button id="startGameBtn" class="button primary">Iniciar partida</button>
+        </div>
+        <div id="playersList" class="players-grid"></div>
+      </section>
+
+      <section id="countdownView" class="stage center-stage hidden">
+        <p class="eyebrow">Prepárense</p>
+        <div id="countdownNumber" class="countdown">3</div>
+      </section>
+
+      <section id="roundView" class="stage hidden">
+        <div class="round-layout">
+          <div class="round-main">
+            <p id="roundProgress" class="eyebrow"></p>
+            <h2 id="moleculeName">Molécula</h2>
+            <div id="timer" class="timer">60</div>
+            <p id="answeredCount" class="lead"></p>
+          </div>
+          <div class="panel">
+            <h3>Ranking en vivo</h3>
+            <ol id="liveRanking" class="ranking"></ol>
+            <button id="endRoundBtn" class="button secondary">Finalizar ronda</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="resultsView" class="stage hidden">
+        <div class="hero-line">
+          <div>
+            <p class="eyebrow">Resultados</p>
+            <h2 id="resultsTitle">Podio</h2>
+          </div>
+          <button id="nextRoundBtn" class="button primary">Siguiente ronda</button>
+        </div>
+        <p id="roundStats" class="lead"></p>
+        <ol id="podium" class="podium"></ol>
+        <ol id="fullRanking" class="ranking ranking-wide"></ol>
+        <div id="nextRoundPanel" class="panel next-round-panel">
+          <h3>Próxima ronda</h3>
+          <label>Molécula
+            <select id="nextRoundSelect"></select>
+          </label>
+          <div class="settings-grid">
+            <label>Tiempo
+              <input id="nextRoundDuration" type="number" min="10" max="300" value="60">
+            </label>
+            <label class="check-option">
+              <input id="nextRoundDouble" type="checkbox">
+              <span>Puntos dobles</span>
+            </label>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="../js/host.js"></script>
+  </body>
+</html>

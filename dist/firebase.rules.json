@@ -1,0 +1,57 @@
+{
+  "rules": {
+    "rooms": {
+      "$room": {
+        ".read": true,
+        ".write": "auth != null && (!data.exists() || data.child('host/uid').val() === auth.uid)",
+        "state": {
+          ".write": "auth != null && root.child('rooms/' + $room + '/host/uid').val() === auth.uid"
+        },
+        "host": {
+          ".write": "auth != null && (!data.exists() || data.child('uid').val() === auth.uid)"
+        },
+        "settings": {
+          ".write": "auth != null && (!root.child('rooms/' + $room).exists() || root.child('rooms/' + $room + '/host/uid').val() === auth.uid)"
+        },
+        "currentRound": {
+          ".write": "auth != null && root.child('rooms/' + $room + '/host/uid').val() === auth.uid"
+        },
+        "roundStartedAt": {
+          ".write": "auth != null && root.child('rooms/' + $room + '/host/uid').val() === auth.uid"
+        },
+        "roundEndedAt": {
+          ".write": "auth != null && root.child('rooms/' + $room + '/host/uid').val() === auth.uid"
+        },
+        "countdownStartedAt": {
+          ".write": "auth != null && root.child('rooms/' + $room + '/host/uid').val() === auth.uid"
+        },
+        "players": {
+          "$playerId": {
+            ".write": "auth != null && (auth.uid === $playerId || root.child('rooms/' + $room + '/host/uid').val() === auth.uid)",
+            ".validate": "newData.hasChildren(['name', 'score', 'connected'])",
+            "score": {
+              ".write": "auth != null && root.child('rooms/' + $room + '/host/uid').val() === auth.uid"
+            },
+            "finished": {
+              ".write": "auth != null && root.child('rooms/' + $room + '/host/uid').val() === auth.uid"
+            },
+            "finishedAt": {
+              ".write": "auth != null && root.child('rooms/' + $room + '/host/uid').val() === auth.uid"
+            },
+            "roundScore": {
+              ".write": "auth != null && root.child('rooms/' + $room + '/host/uid').val() === auth.uid"
+            }
+          }
+        },
+        "submissions": {
+          "$round": {
+            "$playerId": {
+              ".write": "auth != null && auth.uid === $playerId",
+              ".validate": "newData.hasChildren(['correct', 'graph', 'submittedAt'])"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quimichoot | Jugador</title>
+    <link rel="stylesheet" href="../css/styles.css">
+  </head>
+  <body data-view="player">
+    <main class="app player-app">
+      <header class="compact-topbar">
+        <div>
+          <p class="eyebrow">Jugador</p>
+          <h1>Quimichoot</h1>
+        </div>
+        <strong id="playerScore" class="score-pill">0 pts</strong>
+      </header>
+
+      <section id="joinView" class="stage">
+        <div class="panel join-panel">
+          <h2>Entrar a una sala</h2>
+          <label>PIN
+            <input id="pinInput" inputmode="numeric" maxlength="6" placeholder="123456">
+          </label>
+          <label>Nombre del equipo
+            <input id="nameInput" maxlength="28" placeholder="Equipo Carbono">
+          </label>
+          <button id="joinBtn" class="button primary">Entrar</button>
+          <p id="joinError" class="notice error"></p>
+        </div>
+      </section>
+
+      <section id="waitingView" class="stage center-stage hidden">
+        <p class="eyebrow">Lobby</p>
+        <h2 id="waitingTitle">Esperando al profesor...</h2>
+        <p id="waitingRoom" class="lead"></p>
+      </section>
+
+      <section id="playView" class="stage hidden">
+        <div class="play-header">
+          <div>
+            <p id="playProgress" class="eyebrow"></p>
+            <h2 id="targetName">Molécula</h2>
+          </div>
+          <strong id="playerTimer" class="mini-timer">60</strong>
+        </div>
+
+        <div id="editorMount"></div>
+
+        <div class="action-row">
+          <button id="checkBtn" class="button primary">Comprobar</button>
+          <button id="resetBtn" class="button secondary">Reiniciar</button>
+        </div>
+        <p id="feedback" class="feedback"></p>
+      </section>
+
+      <section id="playerResultsView" class="stage center-stage hidden">
+        <p class="eyebrow">Resultado</p>
+        <h2 id="playerResultTitle">Esperando resultados</h2>
+        <p id="playerRoundScore" class="lead"></p>
+        <p id="playerStanding" class="lead"></p>
+      </section>
+    </main>
+    <script type="module" src="../js/player.js"></script>
+  </body>
+</html>
