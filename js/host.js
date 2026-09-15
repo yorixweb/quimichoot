@@ -1,12 +1,12 @@
-import { createStore } from "./store.js";
-import { ROUND_BANK, getRoundById, roundLabel, selectRounds } from "./rounds.js";
-import { calculateScore, rankPlayers } from "./scoring.js";
-import { isSameMolecule } from "./chemistry.js";
+import { createStore } from "./store.js?v=5";
+import { ROUND_BANK, getRoundById, roundLabel, selectRounds } from "./rounds.js?v=5";
+import { calculateScore, rankPlayers } from "./scoring.js?v=5";
+import { isSameMolecule } from "./chemistry.js?v=5";
 
 const $ = (id) => document.getElementById(id);
 const views = ["setupView", "lobbyView", "countdownView", "roundView", "resultsView"];
 const store = await createStore();
-let roomCode = localStorage.getItem("quimichoot-host-room");
+let roomCode = "";
 let currentRoom = null;
 let unsubscribe = null;
 let timerId = null;
@@ -25,23 +25,28 @@ $("endRoundBtn").addEventListener("click", () => finishRound());
 $("nextRoundBtn").addEventListener("click", nextRound);
 populateRoundPicker();
 
-if (roomCode) watchRoom(roomCode);
-
 async function createRoom() {
-  const roundCount = Number($("roundCount").value || 8);
-  const duration = Number($("roundDuration").value || 60);
-  const difficultyLimit = Number($("difficultyLimit").value || 3);
-  const rounds = selectRounds(roundCount, difficultyLimit);
-  roomCode = await store.createRoom({
-    roundCount,
-    duration,
-    difficultyLimit,
-    rounds,
-    roundDurations: { 0: duration },
-    scoreMultipliers: { 0: 1 }
-  });
-  localStorage.setItem("quimichoot-host-room", roomCode);
-  watchRoom(roomCode);
+  unsubscribe?.();
+  currentRoom = null;
+  $("modeNotice").textContent = store.mode === "firebase" ? "Creando sala en Firebase..." : "Creando sala local...";
+  try {
+    const roundCount = Number($("roundCount").value || 8);
+    const duration = Number($("roundDuration").value || 60);
+    const difficultyLimit = Number($("difficultyLimit").value || 3);
+    const rounds = selectRounds(roundCount, difficultyLimit);
+    roomCode = await store.createRoom({
+      roundCount,
+      duration,
+      difficultyLimit,
+      rounds,
+      roundDurations: { 0: duration },
+      scoreMultipliers: { 0: 1 }
+    });
+    localStorage.removeItem("quimichoot-host-room");
+    watchRoom(roomCode);
+  } catch (error) {
+    $("modeNotice").textContent = `No se pudo crear la sala: ${error.message}`;
+  }
 }
 
 function watchRoom(code) {

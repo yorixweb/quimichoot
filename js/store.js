@@ -1,4 +1,4 @@
-import { firebaseConfig, hasFirebaseConfig, MAX_PLAYERS } from "./config.js";
+import { firebaseConfig, hasFirebaseConfig, MAX_PLAYERS } from "./config.js?v=5";
 
 const ROOT_KEY = "quimichoot-db";
 const channel = "BroadcastChannel" in window ? new BroadcastChannel("quimichoot") : null;

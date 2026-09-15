@@ -1,7 +1,7 @@
-import { createStore } from "./store.js";
-import { MoleculeEditor } from "./editor.js";
-import { isSameMolecule, validateCarbonValence } from "./chemistry.js";
-import { playerPlacement } from "./scoring.js";
+import { createStore } from "./store.js?v=5";
+import { MoleculeEditor } from "./editor.js?v=5";
+import { isSameMolecule, validateCarbonValence } from "./chemistry.js?v=5";
+import { playerPlacement } from "./scoring.js?v=5";
 
 const $ = (id) => document.getElementById(id);
 const views = ["joinView", "waitingView", "playView", "playerResultsView"];
