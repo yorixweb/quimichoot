@@ -1,7 +1,7 @@
-import { createStore } from "./store.js?v=5";
-import { ROUND_BANK, getRoundById, roundLabel, selectRounds } from "./rounds.js?v=5";
-import { calculateScore, rankPlayers } from "./scoring.js?v=5";
-import { isSameMolecule } from "./chemistry.js?v=5";
+import { createStore } from "./store.js?v=6";
+import { ROUND_BANK, getRoundById, roundLabel, selectRounds } from "./rounds.js?v=6";
+import { calculateScore, rankPlayers } from "./scoring.js?v=6";
+import { isSameMolecule } from "./chemistry.js?v=6";
 
 const $ = (id) => document.getElementById(id);
 const views = ["setupView", "lobbyView", "countdownView", "roundView", "resultsView"];
@@ -21,6 +21,8 @@ $("modeNotice").textContent = store.mode === "firebase"
 
 $("createRoomBtn").addEventListener("click", createRoom);
 $("startGameBtn").addEventListener("click", startGame);
+$("dissolveRoomBtn").addEventListener("click", dissolveRoom);
+$("dissolveRoomResultsBtn").addEventListener("click", dissolveRoom);
 $("endRoundBtn").addEventListener("click", () => finishRound());
 $("nextRoundBtn").addEventListener("click", nextRound);
 populateRoundPicker();
@@ -53,11 +55,41 @@ function watchRoom(code) {
   unsubscribe?.();
   $("roomPin").textContent = code;
   unsubscribe = store.watchRoom(code, (room) => {
-    if (!room) return;
+    if (!room) {
+      resetHostScreen();
+      return;
+    }
     currentRoom = room;
     render(room);
     processRound(room);
   });
+}
+
+async function dissolveRoom() {
+  if (!roomCode || !currentRoom) return;
+  const confirmed = window.confirm("¿Seguro que quieres disolver esta sala? Se borrará para todos los jugadores.");
+  if (!confirmed) return;
+  try {
+    await store.deleteRoom(roomCode);
+    resetHostScreen();
+  } catch (error) {
+    window.alert(`No se pudo disolver la sala: ${error.message}`);
+  }
+}
+
+function resetHostScreen() {
+  unsubscribe?.();
+  unsubscribe = null;
+  currentRoom = null;
+  roomCode = "";
+  clearInterval(timerId);
+  clearInterval(countdownId);
+  activeCountdownKey = null;
+  startingRound = false;
+  processed.clear();
+  $("roomPin").textContent = "----";
+  $("modeNotice").textContent = store.mode === "firebase" ? "Firebase activo." : "Modo local de prueba activo.";
+  show("setupView");
 }
 
 async function startGame() {

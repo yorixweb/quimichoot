@@ -52,7 +52,10 @@
             <p class="eyebrow">Lobby</p>
             <h2>Equipos conectados</h2>
           </div>
-          <button id="startGameBtn" class="button primary">Iniciar partida</button>
+          <div class="host-actions">
+            <button id="dissolveRoomBtn" class="button danger-button">Disolver sala</button>
+            <button id="startGameBtn" class="button primary">Iniciar partida</button>
+          </div>
         </div>
         <div id="playersList" class="players-grid"></div>
       </section>
@@ -84,7 +87,10 @@
             <p class="eyebrow">Resultados</p>
             <h2 id="resultsTitle">Podio</h2>
           </div>
-          <button id="nextRoundBtn" class="button primary">Siguiente ronda</button>
+          <div class="host-actions">
+            <button id="dissolveRoomResultsBtn" class="button danger-button">Disolver sala</button>
+            <button id="nextRoundBtn" class="button primary">Siguiente ronda</button>
+          </div>
         </div>
         <p id="roundStats" class="lead"></p>
         <ol id="podium" class="podium"></ol>
@@ -106,6 +112,6 @@
         </div>
       </section>
     </main>
-    <script type="module" src="../js/host.js?v=5"></script>
+    <script type="module" src="../js/host.js?v=6"></script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-import { firebaseConfig, hasFirebaseConfig, MAX_PLAYERS } from "./config.js?v=5";
+import { firebaseConfig, hasFirebaseConfig, MAX_PLAYERS } from "./config.js?v=6";
 
 const ROOT_KEY = "quimichoot-db";
 const channel = "BroadcastChannel" in window ? new BroadcastChannel("quimichoot") : null;
@@ -42,6 +42,9 @@ async function createFirebaseStore() {
     },
     updateRoom(code, patch) {
       return dbModule.update(dbModule.ref(db, `rooms/${code}`), patch);
+    },
+    deleteRoom(code) {
+      return dbModule.remove(dbModule.ref(db, `rooms/${code}`));
     },
     updatePlayer(code, playerId, patch) {
       return dbModule.update(dbModule.ref(db, `rooms/${code}/players/${playerId}`), patch);
@@ -107,6 +110,11 @@ function createLocalStore() {
     async updateRoom(code, patch) {
       mutate((db) => {
         db.rooms[code] = { ...(db.rooms[code] || {}), ...patch };
+      }, code);
+    },
+    async deleteRoom(code) {
+      mutate((db) => {
+        delete db.rooms[code];
       }, code);
     },
     async updatePlayer(code, playerId, patch) {
